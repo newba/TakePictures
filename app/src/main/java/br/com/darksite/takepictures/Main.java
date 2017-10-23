@@ -25,8 +25,11 @@ import java.util.Date;
 
 public class Main extends AppCompatActivity {
 
-    //lembrar de aplicar as permissoes no AndroidManifest
-
+    /*
+    =============================================================================
+    lembrar de aplicar as permissoes no AndroidManifest
+    =============================================================================
+    */
     private ImageView imgView;
     private final int GALLERYIMG = 1;
     private final int PERMISSAO_REQUEST = 2;
@@ -39,10 +42,13 @@ public class Main extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
-        /* em tempo de execução (runtime), definir a permissão
-        Isto vai permitir que o usuário possa autorizar que o aplicado tenha
-        acesso às fotos que estão no dispositivo. Note que o usuário pode permitir ou
-        negar. Isto deve ser tratado pelo aplicativo
+        /*
+        =============================================================================
+        Em tempo de execução (runtime), definir a permissão. Isto vai permitir que o
+        usuário possa autorizar que o aplicado tenha acesso às fotos que estão no
+        dispositivo. Note que o usuário pode permitir ou negar. Isto deve ser tratado
+        pelo aplicativo.
+        =============================================================================
         */
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.READ_EXTERNAL_STORAGE)
@@ -56,8 +62,11 @@ public class Main extends AppCompatActivity {
             }
         }
 
-       /* Permissao de gravação
-        */
+       /*
+       =============================================================================
+       Permissao de gravação
+       =============================================================================
+       */
 
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -88,21 +97,30 @@ public class Main extends AppCompatActivity {
 
         btnCamera = (Button)findViewById(R.id.btnCamera);
         /*
+        =============================================================================
         Como estamos usando startActivityForResult o retorno da
         chamada da câmera será no método onActivityResult
+        =============================================================================
          */
         btnCamera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 /*
+                =============================================================================
                 Método anterior que chama a camera, mas nao grava na galeria
                 Intent takePictureIntent = new
                         Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
                     startActivityForResult(takePictureIntent, CAMERA);
-                }*/
+                }
+                =============================================================================
+                */
 
-                // método que pode ser usado para disparar a intent de utilização da câmera
+                /*
+                 =============================================================================
+                 método que pode ser usado para disparar a intent de utilização da câmera
+                 =============================================================================
+                 */
                 Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
                     try {
@@ -121,7 +139,11 @@ public class Main extends AppCompatActivity {
             }
         });
     }
-    // implementação do método de retorno
+    /*
+    =============================================================================
+    implementação do método de retorno
+    =============================================================================
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -138,7 +160,12 @@ public class Main extends AppCompatActivity {
             imgView.setImageBitmap(thumbnail);
         }
 
-        //lembrando que CAMERA é uma constante que indica de qual activity estamos retornando
+        /*
+        =============================================================================
+        lembrando que CAMERA é uma constante que indica de qual activity estamos
+        retornando
+        =============================================================================
+         */
         if (requestCode == CAMERA && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
@@ -154,7 +181,11 @@ public class Main extends AppCompatActivity {
         }
     }
 
-    //O código abaixo faz o tratamento da resposta do usuário referente à permissao
+    /*
+    =============================================================================
+    O código abaixo faz o tratamento da resposta do usuário referente à permissao
+    =============================================================================
+     */
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
@@ -169,10 +200,12 @@ public class Main extends AppCompatActivity {
             return;
         }
     }
-    /* método para criar o nome do arquivo
-    tem que ser um nome que não entre em conflito com algum nome já existente
-        O mais comum é usar um formato onde seja utilizada uma variável data-hora
-        para diferenciar os nomes das fotos
+    /*
+    =============================================================================
+    Método para criar o nome do arquivo tem que ser um nome que não entre em
+    conflito com algum nome já existente. O mais comum é usar um formato onde seja
+    utilizada uma variável data-hora para diferenciar os nomes das fotos.
+    =============================================================================
      */
     private File arquivoFoto = null;
     private File criarArquivo() throws IOException {
